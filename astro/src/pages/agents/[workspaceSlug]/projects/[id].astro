@@ -1,0 +1,12 @@
+---
+import BaseLayout from "@/layouts/base.astro";
+import ProjectDetailPageWrapper from "@/features/workspace/project-detail-page";
+
+export const prerender = false;
+
+const { id, workspaceSlug } = Astro.params;
+---
+
+<BaseLayout title="Project - Multica">
+  <ProjectDetailPageWrapper client:only="react" projectId={id} workspaceSlug={workspaceSlug} />
+</BaseLayout>

@@ -1,0 +1,20 @@
+---
+export const prerender = false;
+import WorkspaceDashboard from "@/components/workspace/WorkspaceDashboard.vue";
+import "@/styles/globals.css";
+const { workspaceSlug } = Astro.params;
+---
+<!DOCTYPE html>
+<html lang="en" class="h-full antialiased">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard - {workspaceSlug}</title>
+  <style>
+    body { margin: 0; }
+  </style>
+</head>
+<body class="h-full">
+  <WorkspaceDashboard client:only="vue" workspaceSlug={workspaceSlug} />
+  <!-- Chat overlay injected globally via astro.config.mjs injectScript -->
+</body>
+</html>

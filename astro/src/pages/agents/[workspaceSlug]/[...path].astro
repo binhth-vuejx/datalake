@@ -1,0 +1,12 @@
+---
+import BaseLayout from "@/layouts/base.astro";
+import WorkspaceShell from "@/features/workspace/workspace-shell";
+
+export const prerender = false;
+
+const { workspaceSlug } = Astro.params;
+---
+
+<BaseLayout title="Multica">
+  <WorkspaceShell client:only="react" workspaceSlug={workspaceSlug} />
+</BaseLayout>

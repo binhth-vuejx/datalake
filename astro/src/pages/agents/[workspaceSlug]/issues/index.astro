@@ -1,0 +1,12 @@
+---
+import BaseLayout from "@/layouts/base.astro";
+import IssuesPageWrapper from "@/features/workspace/issues-page";
+
+export const prerender = false;
+
+const { workspaceSlug } = Astro.params;
+---
+
+<BaseLayout title="Issues - Multica">
+  <IssuesPageWrapper client:only="react" workspaceSlug={workspaceSlug} />
+</BaseLayout>

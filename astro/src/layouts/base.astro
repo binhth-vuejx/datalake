@@ -1,0 +1,68 @@
+---
+import { ClientRouter } from "astro:transitions";
+import "@/styles/globals.css";
+import "@/scripts/view-transitions.ts";
+
+interface Props {
+  title?: string;
+}
+
+const { title = "Multica" } = Astro.props;
+---
+
+<html lang="en" suppressHydrationWarning class="h-full antialiased">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+    <ClientRouter />
+  </head>
+  <body class="h-full overflow-hidden" style="font-family: 'Roboto', sans-serif;">
+    <slot />
+    <!-- Chat overlay mounted via injectScript in astro.config.mjs — always present even on error pages -->
+  </body>
+</html>
+
+<style is:global>
+  /* View Transitions animations - only for main content area */
+  
+  /* Fade out animation for old content */
+  ::view-transition-old(main-content) {
+    animation: fade-out 0.25s ease-out forwards;
+  }
+
+  /* Fade in animation for new content */
+  ::view-transition-new(main-content) {
+    animation: fade-in 0.25s ease-out forwards;
+  }
+
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Smooth transition for the view transition container */
+  ::view-transition {
+    animation-duration: 0.25s;
+  }
+</style>

@@ -1,0 +1,12 @@
+---
+import BaseLayout from "@/layouts/base.astro";
+import IframeDetailPageWrapper from "@/features/workspace/iframe-detail-page";
+
+export const prerender = false;
+
+const { workspaceSlug } = Astro.params;
+---
+
+<BaseLayout title="Iframe - Multica">
+  <IframeDetailPageWrapper client:only="react" workspaceSlug={workspaceSlug} />
+</BaseLayout>

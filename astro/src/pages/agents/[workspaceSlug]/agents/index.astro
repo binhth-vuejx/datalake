@@ -1,0 +1,12 @@
+---
+import BaseLayout from "@/layouts/base.astro";
+import AgentsPageWrapper from "@/features/workspace/agents-page";
+
+export const prerender = false;
+
+const { workspaceSlug } = Astro.params;
+---
+
+<BaseLayout title="Agents - Multica">
+  <AgentsPageWrapper client:only="react" workspaceSlug={workspaceSlug} />
+</BaseLayout>

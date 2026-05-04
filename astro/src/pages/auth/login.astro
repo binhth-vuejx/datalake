@@ -1,0 +1,8 @@
+---
+import BaseLayout from "@/layouts/base.astro";
+import LoginPageWrapper from "@/features/auth/login-page-wrapper";
+---
+
+<BaseLayout title="Login - Multica">
+  <LoginPageWrapper client:only="react" />
+</BaseLayout>

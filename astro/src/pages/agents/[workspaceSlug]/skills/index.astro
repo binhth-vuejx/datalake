@@ -1,0 +1,12 @@
+---
+import BaseLayout from "@/layouts/base.astro";
+import SkillsPageWrapper from "@/features/workspace/skills-page";
+
+export const prerender = false;
+
+const { workspaceSlug } = Astro.params;
+---
+
+<BaseLayout title="Skills - Multica">
+  <SkillsPageWrapper client:only="react" workspaceSlug={workspaceSlug} />
+</BaseLayout>

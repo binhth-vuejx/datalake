@@ -1,0 +1,12 @@
+---
+import BaseLayout from "@/layouts/base.astro";
+import AutopilotDetailPageWrapper from "@/features/workspace/autopilot-detail-page";
+
+export const prerender = false;
+
+const { id, workspaceSlug } = Astro.params;
+---
+
+<BaseLayout title="Autopilot - Multica">
+  <AutopilotDetailPageWrapper client:only="react" autopilotId={id} workspaceSlug={workspaceSlug} />
+</BaseLayout>

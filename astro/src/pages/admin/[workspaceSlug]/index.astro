@@ -1,0 +1,21 @@
+---
+export const prerender = false;
+import AdminDashboard from "@/components/admin/AdminDashboard.svelte";
+import ChatOverlay from "@/components/chat-overlay";
+import "@/styles/globals.css";
+const { workspaceSlug } = Astro.params;
+---
+<!DOCTYPE html>
+<html lang="en" class="h-full antialiased">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin - {workspaceSlug}</title>
+  <style>
+    body { margin: 0; }
+  </style>
+</head>
+<body class="h-full">
+  <AdminDashboard client:only="svelte" workspaceSlug={workspaceSlug} />
+  <ChatOverlay client:only="react" />
+</body>
+</html>

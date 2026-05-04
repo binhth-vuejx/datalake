@@ -1,0 +1,12 @@
+---
+import BaseLayout from "@/layouts/base.astro";
+import InboxPageWrapper from "@/features/workspace/inbox-page";
+
+export const prerender = false;
+
+const { workspaceSlug } = Astro.params;
+---
+
+<BaseLayout title="Inbox - Multica">
+  <InboxPageWrapper client:only="react" workspaceSlug={workspaceSlug} />
+</BaseLayout>

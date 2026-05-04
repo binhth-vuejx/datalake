@@ -1,0 +1,4 @@
+
+> @multica/ui@0.0.0 typecheck /Users/binhth/Desktop/docker_datalake/multica-0.2.13/packages/ui
+> tsc --noEmit
+

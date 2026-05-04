@@ -1,0 +1,21 @@
+---
+export const prerender = false;
+import WorkspaceHome from "@/components/workspace/WorkspaceHome.vue";
+import ChatOverlay from "@/components/chat-overlay";
+import "@/styles/globals.css";
+const { workspaceSlug } = Astro.params;
+---
+<!DOCTYPE html>
+<html lang="en" class="h-full antialiased">
+<head>
+  <meta charset="UTF-8" />
+  <title>{workspaceSlug} - Workspace</title>
+  <style>
+    body { margin: 0; }
+  </style>
+</head>
+<body class="h-full">
+  <WorkspaceHome client:only="vue" workspaceSlug={workspaceSlug} />
+  <ChatOverlay client:only="react" />
+</body>
+</html>

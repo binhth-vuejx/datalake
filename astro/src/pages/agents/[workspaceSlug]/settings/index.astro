@@ -1,0 +1,12 @@
+---
+import BaseLayout from "@/layouts/base.astro";
+import SettingsPageWrapper from "@/features/workspace/settings-page";
+
+export const prerender = false;
+
+const { workspaceSlug } = Astro.params;
+---
+
+<BaseLayout title="Settings - Multica">
+  <SettingsPageWrapper client:only="react" workspaceSlug={workspaceSlug} />
+</BaseLayout>

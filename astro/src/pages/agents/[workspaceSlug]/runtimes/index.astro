@@ -1,0 +1,12 @@
+---
+import BaseLayout from "@/layouts/base.astro";
+import RuntimesPageWrapper from "@/features/workspace/runtimes-page";
+
+export const prerender = false;
+
+const { workspaceSlug } = Astro.params;
+---
+
+<BaseLayout title="Runtimes - Multica">
+  <RuntimesPageWrapper client:only="react" workspaceSlug={workspaceSlug} />
+</BaseLayout>
