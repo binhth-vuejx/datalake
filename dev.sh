@@ -9,7 +9,16 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # ---------------------------------------------------------------------------
 
 # Load environment variables from .env and export them
-export $(cat "$SCRIPT_DIR/.env" | grep -v '^#' | xargs)
+export $(cat "$SCRIPT_DIR/backend/.env" | grep -v '^#' | xargs)
+
+# Extract PostgreSQL host and port from DATABASE_URL
+# Format: postgres://user:password@host:port/dbname?sslmode=disable
+DB_HOST=$(echo "$DATABASE_URL" | sed -E 's|postgres://[^@]+@([^:/]+).*|\1|')
+DB_PORT=$(echo "$DATABASE_URL" | sed -E 's|.*:([0-9]+)/.*|\1|')
+
+# Fallback to defaults if extraction fails
+DB_HOST=${DB_HOST:-localhost}
+DB_PORT=${DB_PORT:-5432}
 
 # Kill processes on ports 3000, 3001, 8080, 4321, and 5000
 lsof -ti:3000 | xargs kill -9 2>/dev/null || true
@@ -22,31 +31,29 @@ lsof -ti:5000 | xargs kill -9 2>/dev/null || true
 pkill nginx 2>/dev/null || true
 
 # ---------------------------------------------------------------------------
-# 5.2 — Docker daemon readiness
+# 5.2 — PostgreSQL connection check
 # ---------------------------------------------------------------------------
 
-echo "==> Starting OrbStack (for Docker daemon)..."
-open -a OrbStack
-
-echo "==> Waiting for Docker daemon to be ready..."
-DOCKER_READY=false
+echo "==> Checking PostgreSQL connection..."
+POSTGRES_READY=false
 for i in {1..30}; do
-  if docker ps > /dev/null 2>&1; then
-    echo "✓ Docker daemon is ready"
-    DOCKER_READY=true
+  if pg_isready -h "$DB_HOST" -p "$DB_PORT" > /dev/null 2>&1; then
+    echo "✓ PostgreSQL is ready at $DB_HOST:$DB_PORT"
+    POSTGRES_READY=true
     break
   fi
   echo "  Waiting... ($i/30)"
   sleep 2
 done
 
-if [ "$DOCKER_READY" != "true" ]; then
-  echo "ERROR: Docker daemon did not become ready within 60 seconds. Aborting."
+if [ "$POSTGRES_READY" != "true" ]; then
+  echo "ERROR: PostgreSQL did not become ready within 60 seconds. Aborting."
+  echo "Make sure PostgreSQL is running at $DB_HOST:$DB_PORT"
   exit 1
 fi
 
 # ---------------------------------------------------------------------------
-# 5.3 — bun install, make build, PostgreSQL, migrations
+# 5.3 — bun install, make build, migrations
 # ---------------------------------------------------------------------------
 
 echo "==> Installing dependencies..."
@@ -54,10 +61,6 @@ bun install --cwd "$SCRIPT_DIR"
 
 echo "==> Building server..."
 make -C "$SCRIPT_DIR" build
-
-echo "==> Starting PostgreSQL..."
-docker compose -f "$SCRIPT_DIR/docker-compose.yml" up -d postgres
-sleep 5
 
 echo "==> Running migrations..."
 (cd "$SCRIPT_DIR/backend_agents" && go run ./cmd/migrate up)
