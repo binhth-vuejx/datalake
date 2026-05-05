@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 
 const count = ref(0);
 
+console.log("[Counter] - 123");
+
 watch(count, (newValue, oldValue) => {
   console.log(`[Counter] Count changed: ${oldValue} -> ${newValue}`);
   console.log(`[Counter] Timestamp: ${new Date().toISOString()}`);
