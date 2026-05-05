@@ -4,28 +4,29 @@ import { Button } from "@/components/ui/button";
 
 const count = ref(0);
 
-console.log("[Counter] - 123");
+console.log("[Counter] - 123xxx - Initialized");
+console.log("[Counter] - 123xxx - Component mounted");
 
 watch(count, (newValue, oldValue) => {
-  console.log(`[Counter] Count changed: ${oldValue} -> ${newValue}`);
-  console.log(`[Counter] Timestamp: ${new Date().toISOString()}`);
-  console.log(`[Counter] Current count value: ${newValue}`);
+  console.log(`[Counter] - 123xxx - Count changed: ${oldValue} -> ${newValue}`);
+  console.log(`[Counter] - 123xxx - Timestamp: ${new Date().toISOString()}`);
+  console.log(`[Counter] - 123xxx - Current count value: ${newValue}`);
 });
 
 const increment = () => {
   count.value++;
-  console.log(`[Counter] Increment clicked, new value: ${count.value}`);
+  console.log(`[Counter] - 123xxx - Increment clicked, new value: ${count.value}`);
 };
 
 const decrement = () => {
   count.value--;
-  console.log(`[Counter] Decrement clicked, new value: ${count.value}`);
+  console.log(`[Counter] - 123xxx - Decrement clicked, new value: ${count.value}`);
 };
 
 const reset = () => {
   const previousValue = count.value;
   count.value = 0;
-  console.log(`[Counter] Reset clicked, previous value: ${previousValue}, new value: ${count.value}`);
+  console.log(`[Counter] - 123xxx - Reset clicked, previous value: ${previousValue}, new value: ${count.value}`);
 };
 </script>
 
